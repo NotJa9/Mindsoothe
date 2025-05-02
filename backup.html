@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div class="intro bg-gray-50 p-6">
+    <div class="phq-intro">
+      <div class="relative">
+        <p class="text-4xl font-semibold text-center mb-4">
+          <span class="text-blue-600">Mental </span> 
+          <span class="text-gray-900">Wellness</span> 
+          <span class="text-blue-600">Companion</span>
+        </p>
+        
+        <div class="date-picker bg-white shadow rounded-lg p-4">
+          <div class="base-calendar">
+            <div class="flex items-center justify-between mb-4">
+              <img class="w-6 h-6 rotate-180" src="image/chevron-8.svg" alt="Previous" />
+              <div class="text-center">
+                <div class="text-lg font-semibold">May</div>
+                <div class="text-gray-500">2024</div>
+              </div>
+              <img class="w-6 h-6" src="image/chevron-9.svg" alt="Next" />
+            </div>
+            <div class="grid grid-cols-7 gap-2">
+              <div class="text-sm font-medium text-gray-500">Sun</div>
+              <div class="text-sm font-medium text-gray-500">Mon</div>
+              <div class="text-sm font-medium text-gray-500">Tue</div>
+              <div class="text-sm font-medium text-gray-500">Wed</div>
+              <div class="text-sm font-medium text-gray-500">Thu</div>
+              <div class="text-sm font-medium text-gray-500">Fri</div>
+              <div class="text-sm font-medium text-gray-500">Sat</div>
+            </div>
+            <div class="grid grid-cols-7 gap-2 mt-4">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div class="text-center text-gray-700 font-medium">1</div>
+              <div class="text-center text-gray-700 font-medium">2</div>
+              <div class="text-center text-gray-700 font-medium">3</div>
+              <div class="text-center text-gray-700 font-medium">4</div>
+              <div class="text-center text-gray-700 font-medium">5</div>
+              <div class="text-center text-gray-700 font-medium">6</div>
+              <div class="text-center text-gray-700 font-medium">7</div>
+              <div class="text-center text-gray-700 font-medium">8</div>
+              <div class="text-center text-gray-700 font-medium">9</div>
+              <div class="text-center text-gray-700 font-medium">10</div>
+              <div class="text-center text-gray-700 font-medium">11</div>
+              <div class="text-center text-gray-700 font-medium">12</div>
+              <div class="text-center text-gray-700 font-medium relative">
+                13
+                <div class="absolute top-0 right-0 w-2 h-2 bg-blue-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative mt-8">
+        <div class="bg-white shadow-lg rounded-lg p-6">
+          <img class="w-full rounded-lg mb-4" src="image/subs-free-card-4.svg" alt="Subscription" />
+          <div class="flex items-start gap-4">
+            <img class="w-16 h-16 rounded-full" src="images/emily.jpg" alt="Emily Roberts" />
+            <div>
+              <div class="font-semibold text-lg">Emily Roberts</div>
+              <div class="text-sm text-gray-500">Licensed Mental Health Counselor</div>
+              <div class="text-sm text-gray-500">9 years of experience</div>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-4">
+            <span class="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded">Stress</span>
+            <span class="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded">Anxiety</span>
+            <span class="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded">Depression</span>
+          </div>
+          <button
+            class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            onclick="window.location.href='MHProfile.php'">
+            View Profile
+          </button>
+        </div>
+      </div>
+      <div class="mt-8 bg-gray-100 p-4 rounded-lg">
+        <p class="text-lg font-semibold mb-2">Instructions for Completing the PHQ-9 Questionnaire</p>
+        <ul class="text-sm text-gray-700 space-y-2 list-disc pl-5">
+          <li>Answer each question based on your experience in the last two weeks.</li>
+          <li>For Question 10, indicate the difficulty caused by the issues.</li>
+          <li>Seek help if needed, especially for thoughts of self-harm (Question 9).</li>
+        </ul>
+        <button
+          class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          onclick="document.getElementById('questionModal').classList.remove('hidden')">
+          Start
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question Modal -->
+  <div
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden"
+  id="questionModal"
+  aria-labelledby="modalLabel"
+  aria-hidden="true"
+>
+  <div class="bg-white rounded-lg shadow-xl p-6 w-96">
+      <h2 class="text-xl font-bold text-center mb-6">
+          Patient <span class="text-blue-500">Health</span> Questionnaire
+      </h2>
+      <div class="space-y-4">
+          <div class="flex items-start space-x-2">
+              <span class="question-number font-bold"></span>
+              <p class="question-text flex-1"></p>
+          </div>
+          <div class="space-y-2">
+              <label class="flex items-center space-x-2">
+                  <input type="radio" name="answer" value="0" class="form-radio">
+                  <span>Not at all</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                  <input type="radio" name="answer" value="1" class="form-radio">
+                  <span>Several days</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                  <input type="radio" name="answer" value="2" class="form-radio">
+                  <span>More than half the days</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                  <input type="radio" name="answer" value="3" class="form-radio">
+                  <span>Nearly every day</span>
+              </label>
+          </div>
+      </div>
+      <div class="flex justify-between mt-6">
+          <button id="prevBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+              Previous
+          </button>
+          <button id="nextBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+              Next
+          </button>
+      </div>
+  </div>
+</div>
+  
+</body>
+</html>

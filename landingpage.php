@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Mindsoothe</title>
+  </head>
+  <body class="font-['Poppins'] m-0 min-h-screen bg-[#fefefe]">
+    <div class="container mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+      <div class="relative w-full">
+       
+        <div class="relative w-full h-[50vh] md:h-[737px] bg-cover bg-center" style="background-image: url('image/Imagr\ bg.jpg')">
+        <div class="absolute inset-0 flex items-center justify-center" style="bottom: -250px;">
+            <img
+            class="max-w-full h-auto md:w-[1026px] md:h-[129px]"
+            src="image/your-mental-wellness-journey-starts-here (1).png"
+            alt="Mental Wellness Journey"
+            />
+        </div>
+        </div>
+       
+        <div class="flex flex-col md:flex-row items-start justify-between my-12 space-y-12 md:space-y-0 md:space-x-12">
+            <!-- Left Section -->
+            <div class="text-center md:text-left">
+              <h2 class="text-3xl md:text-[50px] font-bold text-[#02040f] leading-tight">
+                Features <br />that fit your life
+              </h2>
+              <hr class="my-4 w-[200px] md:w-[397px] mx-auto md:mx-0 border-t-2 border-gray-300" />
+              <p class="text-lg md:text-[24px] text-[#02040f] max-w-[408px]">
+                Whether you're managing stress, anxiety, or depression, mindsoothe provides the tools and support you need.
+              </p>
+            </div>
+          
+            <!-- Right Section -->
+            <div class="flex flex-col space-y-8">
+              <!-- Graceful Thread Card -->
+              <div class="flex items-center w-full md:w-[870px] h-[130px] bg-[#f9f9f9] rounded-[50px] px-8">
+                <img class="w-[56px] h-[55px]" src="https://c.animaapp.com/fAHo4dAY/img/freedom-wall-side@2x.png" alt="Graceful Thread Icon" />
+                <div class="text-[33px] font-poppins font-normal text-[#000000] ml-20">
+                  Graceful Thread
+                </div>
+              </div>
+          
+              <!-- Mental Wellness Companion Card -->
+              <div class="flex items-center w-full md:w-[870px] h-[130px] bg-[#f9f9f9] rounded-[50px] px-8">
+                <img class="w-[62px] h-[48px]" src="https://c.animaapp.com/fAHo4dAY/img/vector.svg" alt="Mental Wellness Companion Icon" />
+                <div class="text-[33px] font-poppins font-normal text-[#000000] ml-20">
+                  Mental Wellness Companion
+                </div>
+              </div>
+            </div>
+          </div>
+
+        
+        <nav class="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+          <div class="container mx-auto flex items-center justify-between px-4 py-2">
+            <div class="w-32 h-10">
+             <a href="index.html" class="block h-full">
+               <div
+                 class="w-full h-full bg-cover bg-center"
+                 style="background-image: url('images/Mindsoothe(2).svg'); background-size: contain; background-repeat:no-repeat;"
+               ></div>
+             </a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <!-- <a 
+                href="mhp_doc_registration.php" 
+                class="text-[#1cabe3] text-lg hover:text-[#1cabe3]/80 transition"
+              >
+                Careers
+              </a> -->
+              <!-- <a 
+                href="admin_login.php" 
+                class="text-[#1cabe3] text-lg hover:text-[#1cabe3]/80 transition"
+              >
+                Admin
+              </a> -->          
+              <button 
+                onclick="LoginPage()" 
+                class="bg-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-100 transition"
+              >
+                <span class="text-[#1cabe3] font-semibold">Login</span>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    
+    <script src="landingpage.js">
+       
+    </script>
+  </body>
+</html>
