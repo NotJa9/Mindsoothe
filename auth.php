@@ -4,7 +4,7 @@ include("connect.php");
 
 // Ensure the user is logged in
 if (!isset($_SESSION['email'])) {
-    header("Location: landingpage.php");
+    header("Location: index.php");
     exit();
 }
 // Define $isLoggedIn to true since user is logged in

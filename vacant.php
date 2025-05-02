@@ -1,22 +1,4 @@
 <?php
-
-// include("auth.php");
-// // Use session profile image if available, otherwise fetch from database
-// $profileImage = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'images/blueuser.svg';
-
-// // If not in session but user is logged in, fetch from database
-// if (!isset($_SESSION['profile_image']) && isset($_SESSION['email'])) {
-//     $email = $_SESSION['email'];
-//     $query = $conn->prepare("SELECT profile_image FROM users WHERE email = ?");
-//     $query->bind_param("s", $email);
-//     $query->execute();
-//     $result = $query->get_result();
-//     if ($result->num_rows > 0) {
-//         $userData = $result->fetch_assoc();
-//         $profileImage = $userData['profile_image'];
-//         $_SESSION['profile_image'] = $profileImage;
-//     }
-// }
 include("auth.php");
 // Function to get current profile image
 function getCurrentProfileImage($conn) {
@@ -66,6 +48,31 @@ include("connect.php");
 
 // Get the profile image dynamically
 $profileImage = getCurrentProfileImage($conn);
+
+// Fetch user details
+$fullName = "";
+$Department = "";
+$Course = "";
+$Year = "";
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    
+    $query = "SELECT firstName, lastName, Department, Course, Year FROM users WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        $fullName = $user['firstName'] . ' ' . $user['lastName'];
+        $Department = $user['Department'];
+        $Course = $user['Course'];
+        $Year = $user['Year'];
+    }
+    $stmt->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -198,7 +205,7 @@ $profileImage = getCurrentProfileImage($conn);
 <div class="ml-6">
     <div class="flex items-center">
         <h2 class="text-2xl font-bold mr-2"><?php echo $fullName; ?></h2>
-        <button onclick="openEditModal()" class=class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        <button onclick="openEditModal()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
@@ -321,72 +328,76 @@ $profileImage = getCurrentProfileImage($conn);
     const startTimeInput = form.querySelector('[name="start_time"]');
     const endTimeInput = form.querySelector('[name="end_time"]');
     
-     // Function to validate time range
-function validateTimeRange(startTime, endTime) {
-    // Convert 12-hour time to minutes
-    const timeToMinutes = (time) => {
-        const [time12, period] = time.split(' ');
-        let [hours, minutes] = time12.split(':').map(Number);
-        
-        if (period === 'PM' && hours !== 12) hours += 12;
-        if (period === 'AM' && hours === 12) hours = 0;
-        
-        return hours * 60 + minutes;
-    };
-
-    const startMinutes = timeToMinutes(startTime);
-    const endMinutes = timeToMinutes(endTime);
-
-    if (endMinutes <= startMinutes) {
-        return {
-            isValid: false,
-            message: 'End time must be later than start time'
+    // Function to validate time range
+    function validateTimeRange(startTime, endTime) {
+        // Convert time to minutes
+        const timeToMinutes = (time) => {
+            const [hours, minutes] = time.split(':').map(Number);
+            return hours * 60 + minutes;
         };
-    }
 
-    return { isValid: true };
-}
+        const startMinutes = timeToMinutes(startTime);
+        const endMinutes = timeToMinutes(endTime);
 
-// Form submission validation
-form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        day: form.querySelector('[name="day"]').value,
-        start_time: startTimeInput.value,
-        end_time: endTimeInput.value,
-        user_id: 1
-    };
-
-    try {
-        const response = await fetch('get_vacant.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
-
-        const result = await response.json();
-        
-        console.log('Server response:', result);
-
-        if(result.success) {
-            alert('Time slot saved successfully!');
-            loadTimeSlots();
-            form.reset();
-        } else {
-            alert('Error: ' + (result.error || 'Unknown error'));
-            console.error('Server error details:', result);
+        if (endMinutes <= startMinutes) {
+            return {
+                isValid: false,
+                message: 'End time must be later than start time'
+            };
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to save time slot: ' + error.message);
+
+        return { isValid: true };
     }
-});
+
+    // Form submission validation
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate time inputs
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
+        
+        const validation = validateTimeRange(startTime, endTime);
+        if (!validation.isValid) {
+            alert(validation.message);
+            return;
+        }
+        
+        const formData = {
+            day: form.querySelector('[name="day"]').value,
+            start_time: startTime,
+            end_time: endTime
+            // user_id will be obtained from the session in the PHP script
+        };
+
+        try {
+            const response = await fetch('get_vacant.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            
+            console.log('Server response:', result);
+
+            if(result.success) {
+                alert('Time slot saved successfully!');
+                loadTimeSlots();
+                form.reset();
+            } else {
+                alert('Error: ' + (result.error || 'Unknown error'));
+                console.error('Server error details:', result);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to save time slot: ' + error.message);
+        }
+    });
 });
 
-// Function to load time slots
 // Function to load time slots
 async function loadTimeSlots() {
     try {
@@ -474,7 +485,7 @@ document.addEventListener('DOMContentLoaded', loadTimeSlots);
 <script src="sidebarnav.js"></script>
 
 <script>
-                // Profile Image Handler
+// Profile Image Handler
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fileInput');
     const profileImage = document.getElementById('profileImage');
@@ -542,32 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Required elements not found. Check your HTML IDs.');
     }
 });
-            </script>
-
-<!-- new -->
-<?php
-// Assuming user is authenticated and their data is fetched based on the session
-$userId = $_SESSION['user_id']; // Set this properly after login
-
-$query = "SELECT firstName, lastName, Department FROM users WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param('i', $userId);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows === 1) {
-    $user = $result->fetch_assoc();
-    $fullName = $user['firstName'] . ' ' . $user['lastName'];
-    $department = $user['Department'];
-} else {
-    // Handle case where user data is not found
-    $fullName = '';
-    $department = '';
-}
-$stmt->close();
-?>
-
-<!-- new -->
+</script>
 
 <script>
 function openEditModal() {
@@ -632,7 +618,6 @@ async function saveEdit() {
 
     closeEditModal();
 }
-
 </script>
     </div>
     </div>

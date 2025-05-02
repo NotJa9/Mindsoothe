@@ -89,7 +89,7 @@ $dotenv->load();
 $clientId = $_ENV['CLIENT_ID'];
 $clientSecret = $_ENV['CLIENT_SECRET'];
 
-$redirectUri = 'http://localhost/mindsoothe(1)/google_callback.php';
+$redirectUri = 'http://localhost/Mindsoothe/google_callback.php';
 
 $client = new Google\Client();
 $client->setClientId($clientId);

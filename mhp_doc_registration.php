@@ -434,7 +434,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn'])) {
           <input type="password" name="password" placeholder="Password" required/>
           <a href="mhp_forgot_password.html">Forgot your password?</a>
           <input type="submit" class="Login" value="Sign In" name="signIn" style="width: 200px;">
-          <input type="button" class="Login" value="Back" onclick="window.location.href='landingpage.php'" style="width: 200px;">
+          <input type="button" class="Login" value="Back" onclick="window.location.href='index.php'" style="width: 200px;">
         </form>
       </div>
       <div class="overlay-container">
